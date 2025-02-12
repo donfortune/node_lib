@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const libRouter = require('./routes/libRoutes');
+const userRouter = require('/Users/mac/node_libApi/routes/userRoutes.js');
 const mongoose = require('mongoose');
 
 app.use(express.json()); // Parse incoming JSON data
@@ -23,6 +24,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use("/api/v1", libRouter)
+app.use("/api/v1", userRouter)
 
 const port = 3000
 app.listen(port, () => {

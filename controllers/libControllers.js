@@ -32,3 +32,41 @@ exports.getBookById = async (req, res) => {
         
     }
 }
+
+
+
+exports.borrowBook = async (req, res) => {
+    try {
+        const { userId, bookId } = req.body;
+
+        // Find the book
+        const book = await Library.findById(bookId);
+        if (!book) {
+            return res.status(404).json({ status: 'fail', message: 'Book not found' });
+        }
+
+        // Check if book is available
+        if (book.quantity - book.borrowed <= 0) {
+            return res.status(400).json({ status: 'fail', message: 'No copies available' });
+        }
+
+        // Check if user already borrowed this book
+        if (book.borrowers.includes(userId)) {
+            return res.status(400).json({ status: 'fail', message: 'User has already borrowed this book' });
+        }
+
+        // Update book data
+        book.borrowed += 1;
+        book.borrowers.push(userId);
+        await book.save();
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Book borrowed successfully',
+            data: book
+        });
+
+    } catch (error) {
+        res.status(400).json({ status: 'fail', message: error.message });
+    }
+};

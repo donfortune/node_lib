@@ -18,13 +18,19 @@ const librarySchema = new Schema({
     // quantity after a book has been borrowed
     borrowed: {
         type: Number,
+        default: 0,
         required: true
     },
     // quantity after a book has been returned
     returned: {
         type: Number,
+        default: 0,
         required: true
     },
+    borrowers:[{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 }, { timestamps: true });
 
 const Library = mongoose.model('Library', librarySchema);
