@@ -4,5 +4,6 @@ const userController = require('/Users/mac/node_libApi/controllers/userControlle
 
 router.get('/users', userController.getAllUsers);
 router.post('/users', userController.addUser);
+router.post
 
 module.exports = router;
